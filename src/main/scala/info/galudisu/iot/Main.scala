@@ -1,5 +1,5 @@
 package info.galudisu.iot
 
 object Main extends App {
-  new Server()
+  new ServerPrime()
 }

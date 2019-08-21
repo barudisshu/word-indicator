@@ -1,24 +1,16 @@
 package info.galudisu.iot.modeling
 
+import org.apache.commons.lang3.builder.{ToStringBuilder, ToStringStyle}
+
+import scala.util.Random
+
 trait MobileMsg {
-  def id: Int
-  def msg: String
+  def id: Int                  = Random.nextInt(1000)
+  def msg: String              = Random.alphanumeric.take(20).mkString
   def toGenMsg(origin: String) = GenericMsg(id, msg, origin)
 }
-case class AndroidMsg(id: Int = genId, msg: String = genMsg) extends MobileMsg
-case class IosMsg(id: Int = genId, msg: String = genMsg)     extends MobileMsg
-
-case class GenericMsg(id: Int, msg: String, origin: String)
-
-object GenericMsg {
-  implicit class ToRaw(gm: GenericMsg) {
-    def toAndroidMsg: Option[AndroidMsg] =
-      if (gm.origin.equalsIgnoreCase("android"))
-        Some(AndroidMsg(gm.id, gm.msg))
-      else None
-    def toIosMsg: Option[IosMsg] =
-      if (gm.origin.equalsIgnoreCase("ios"))
-        Some(IosMsg(gm.id, gm.msg))
-      else None
-  }
+class AndroidMsg extends MobileMsg
+class IosMsg     extends MobileMsg
+case class GenericMsg(id: Int, msg: String, origin: String) {
+  override def toString: String = ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE)
 }

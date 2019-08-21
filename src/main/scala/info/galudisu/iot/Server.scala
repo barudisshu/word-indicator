@@ -4,13 +4,14 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream._
 import akka.stream.scaladsl.{Balance, Broadcast, Flow, GraphDSL, Merge, RunnableGraph, Sink, Source}
+import com.typesafe.scalalogging.LazyLogging
 import info.galudisu.iot.modeling.{AndroidMsg, GenericMsg, IosMsg}
 import info.galudisu.iot.stages.StatefulCounterFlow
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
 
-class Server extends Config {
+class Server extends Config with LazyLogging {
   implicit val system: ActorSystem    = ActorSystem(clusterName)
   implicit val mat: ActorMaterializer = ActorMaterializer()
 
@@ -39,7 +40,7 @@ class Server extends Config {
     val notificationMerge        = builder.add(Merge[Seq[GenericMsg]](2))
     val genericNotificationMerge = builder.add(Merge[GenericMsg](2))
 
-    def counterSink(s: String) = Sink.foreach[Int](x => println(s"$s: [$x]"))
+    def counterSink(s: String) = Sink.foreach[Int](x => logger.debug(s"$s: [$x]"))
 
     //Graph
     androidNotification ~> groupAndroid ~> aBroadcast ~> counter ~> counterSink(ORIGIN_ANDROID)
@@ -50,7 +51,7 @@ class Server extends Config {
     notificationMerge ~> balancer ~> mapper.async ~> genericNotificationMerge
     balancer ~> mapper.async ~> genericNotificationMerge
 
-    genericNotificationMerge ~> Sink.foreach(println)
+    genericNotificationMerge ~> Sink.foreach[GenericMsg](x => logger.debug(x.toString))
 
     ClosedShape
   })

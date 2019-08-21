@@ -22,7 +22,8 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 scalacOptions ++= Seq(
   "-deprecation",
   "-unchecked",
-  "-encoding", "UTF-8",
+  "-encoding",
+  "UTF-8",
   "-Xlint"
 )
 
@@ -30,26 +31,28 @@ resolvers += Resolver.bintrayRepo("hseeberger", "maven")
 
 libraryDependencies ++= Seq(
   // -- akka --
-  "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-  "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-  "com.typesafe.akka" %% "akka-remote" % akkaVersion,
-  "com.typesafe.akka" %% "akka-cluster" % akkaVersion,
-  "com.typesafe.akka" %% "akka-cluster-tools" % akkaVersion,
+  "com.typesafe.akka" %% "akka-actor"            % akkaVersion,
+  "com.typesafe.akka" %% "akka-stream"           % akkaVersion,
+  "com.typesafe.akka" %% "akka-remote"           % akkaVersion,
+  "com.typesafe.akka" %% "akka-cluster"          % akkaVersion,
+  "com.typesafe.akka" %% "akka-cluster-tools"    % akkaVersion,
   "com.typesafe.akka" %% "akka-cluster-sharding" % akkaVersion,
   // --log---
-  "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
-  "org.apache.logging.log4j" % "log4j-slf4j-impl" % log4j2Version,
-  "org.apache.logging.log4j" % "log4j-api" % log4j2Version,
-  "org.apache.logging.log4j" % "log4j-core" % log4j2Version,
+  "com.typesafe.akka"          %% "akka-slf4j"      % akkaVersion,
+  "org.apache.logging.log4j"   % "log4j-slf4j-impl" % log4j2Version,
+  "org.apache.logging.log4j"   % "log4j-api"        % log4j2Version,
+  "org.apache.logging.log4j"   % "log4j-core"       % log4j2Version,
+  "com.typesafe.scala-logging" %% "scala-logging"   % "3.9.2",
   // --opencsv--
-  "com.opencsv" % "opencsv" % "4.6",
-  // -- test --
-  "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % Test,
-  "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test,
-  "org.specs2" %% "specs2-core" % "4.3.4" % Test,
-  "org.specs2" %% "specs2-mock" % "4.3.4" % Test,
-  "org.scalatest" %% "scalatest" % scalatestFullVersion % Test,
-  "org.scalamock" %% "scalamock-scalatest-support" % scalaMockVersion % Test
+  "com.opencsv"        % "opencsv"       % "4.6",
+  "org.apache.commons" % "commons-lang3" % "3.9",
+// -- test --
+  "com.typesafe.akka" %% "akka-http-testkit"           % akkaHttpVersion      % Test,
+  "com.typesafe.akka" %% "akka-stream-testkit"         % akkaVersion          % Test,
+  "org.specs2"        %% "specs2-core"                 % "4.3.4"              % Test,
+  "org.specs2"        %% "specs2-mock"                 % "4.3.4"              % Test,
+  "org.scalatest"     %% "scalatest"                   % scalatestFullVersion % Test,
+  "org.scalamock"     %% "scalamock-scalatest-support" % scalaMockVersion     % Test
 )
 
 version in Docker := "latest"

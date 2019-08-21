@@ -8,7 +8,7 @@
     </Appenders>
     <Loggers>
         <logger name="akka" level="INFO"/>
-        <logger name="info.galudisu" level="INFO"/>
+        <logger name="info.galudisu" level="DEBUG"/>
         <Root level="INFO">
             <AppenderRef ref="STDOUT"/>
         </Root>
