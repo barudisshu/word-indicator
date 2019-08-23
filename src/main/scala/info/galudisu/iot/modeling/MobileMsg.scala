@@ -1,5 +1,6 @@
 package info.galudisu.iot.modeling
 
+import com.opencsv.bean.CsvBindByName
 import org.apache.commons.lang3.builder.{ToStringBuilder, ToStringStyle}
 
 import scala.util.Random
@@ -11,6 +12,8 @@ trait MobileMsg {
 }
 class AndroidMsg extends MobileMsg
 class IosMsg     extends MobileMsg
-case class GenericMsg(id: Int, msg: String, origin: String) {
+case class GenericMsg(@CsvBindByName(column = "id") id: Int,
+                      @CsvBindByName(column = "msg") msg: String,
+                      @CsvBindByName(column = "origin") origin: String) {
   override def toString: String = ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE)
 }

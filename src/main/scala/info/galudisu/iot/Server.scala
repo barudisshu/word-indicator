@@ -40,7 +40,7 @@ class Server extends Config with LazyLogging {
     val notificationMerge        = builder.add(Merge[Seq[GenericMsg]](2))
     val genericNotificationMerge = builder.add(Merge[GenericMsg](2))
 
-    def counterSink(s: String) = Sink.foreach[Int](x => logger.debug(s"$s: [$x]"))
+    def counterSink(s: String) = Sink.foreach[Int](x => logger.debug(s"==> $s: [$x]"))
 
     //Graph
     androidNotification ~> groupAndroid ~> aBroadcast ~> counter ~> counterSink(ORIGIN_ANDROID)
@@ -51,7 +51,7 @@ class Server extends Config with LazyLogging {
     notificationMerge ~> balancer ~> mapper.async ~> genericNotificationMerge
     balancer ~> mapper.async ~> genericNotificationMerge
 
-    genericNotificationMerge ~> Sink.foreach[GenericMsg](x => logger.debug(x.toString))
+    genericNotificationMerge ~> Sink.foreach[GenericMsg](x => logger.debug(s"==> ${x.toString}"))
 
     ClosedShape
   })

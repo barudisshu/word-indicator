@@ -33,7 +33,7 @@ class ServerPrime extends Config with LazyLogging {
 
     def mapper = Flow[Seq[GenericMsg]].mapConcat(_.toList)
 
-    def csv = Flow[GenericMsg].via(new CsvPersistFlow("src/main/resources/android.csv"))
+    def csv = Flow[GenericMsg].via(new CsvPersistFlow("src/main/resources/genericMsg.csv"))
 
     //Junctions
     val aBroadcast               = builder.add(Broadcast[Seq[GenericMsg]](2))

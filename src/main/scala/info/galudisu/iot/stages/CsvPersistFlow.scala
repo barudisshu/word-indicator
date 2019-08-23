@@ -28,7 +28,7 @@ class CsvPersistFlow(fileName: String) extends GraphStage[FlowShape[GenericMsg, 
         new InHandler {
           override def onPush(): Unit = {
             val elem                     = grab(in)
-            val bys: List[Array[String]] = List(Array(elem.id.toString, elem.msg))
+            val bys: List[Array[String]] = List(Array(elem.id.toString, elem.msg, elem.origin))
             val tryFut: Try[IOResult] =
               Try(new CSVWriter(new BufferedWriter(new FileWriter(fileName, true)))).flatMap((csvWriter: CSVWriter) =>
                 Try {
